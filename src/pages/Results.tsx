@@ -19,12 +19,19 @@ import {
 import Navigation from "@/components/Navigation";
 
 interface AuditEvent {
-  id?: string;
-  type?: string;
-  user?: string;
-  timestamp?: string;
-  details?: any;
-  success?: boolean;
+  "Ticket #"?: string;
+  "Name"?: string;
+  "User ID"?: string;
+  "Hire Date"?: string;
+  "Left Date"?: string | null;
+  "Action"?: string;
+  "Account creation date"?: string;
+  "Requestor"?: string;
+  "Access requested"?: string;
+  "Approver"?: string;
+  "Date of Approval"?: string;
+  "Access granted"?: string;
+  "Status"?: string;
   [key: string]: any;
 }
 
@@ -134,23 +141,23 @@ const Results = () => {
   };
 
   const getEventIcon = (event: AuditEvent) => {
-    if (event.success === false) return <XCircle className="h-4 w-4 text-destructive" />;
-    if (event.success === true) return <CheckCircle className="h-4 w-4 text-success" />;
+    if (event["Access granted"] === "No") return <XCircle className="h-4 w-4 text-destructive" />;
+    if (event["Access granted"] === "Yes") return <CheckCircle className="h-4 w-4 text-success" />;
     return <Activity className="h-4 w-4 text-muted-foreground" />;
   };
 
-  const getEventBadge = (type: string) => {
+  const getEventBadge = (action: string) => {
     const variants: Record<string, any> = {
-      login: "default",
-      logout: "secondary",
-      access: "outline",
-      error: "destructive",
-      warning: "destructive",
+      create: "default",
+      update: "secondary", 
+      delete: "destructive",
+      approve: "outline",
+      reject: "destructive",
     };
     
     return (
-      <Badge variant={variants[type?.toLowerCase()] || "outline"}>
-        {type}
+      <Badge variant={variants[action?.toLowerCase()] || "outline"}>
+        {action}
       </Badge>
     );
   };
@@ -181,7 +188,7 @@ const Results = () => {
     );
   }
 
-  const events = auditData.events || [];
+  const events = Array.isArray(auditData) ? auditData : auditData.events || [];
 
   return (
     <div className="min-h-screen bg-background">
@@ -237,15 +244,15 @@ const Results = () => {
                 <span className="font-semibold">{events.length}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-muted-foreground">Successful</span>
+                <span className="text-sm text-muted-foreground">Access Granted</span>
                 <span className="font-semibold text-success">
-                  {events.filter((e: AuditEvent) => e.success === true).length}
+                  {events.filter((e: AuditEvent) => e["Access granted"] === "Yes").length}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm text-muted-foreground">Failed</span>
+                <span className="text-sm text-muted-foreground">Access Denied</span>
                 <span className="font-semibold text-destructive">
-                  {events.filter((e: AuditEvent) => e.success === false).length}
+                  {events.filter((e: AuditEvent) => e["Access granted"] === "No").length}
                 </span>
               </div>
             </CardContent>
@@ -262,13 +269,13 @@ const Results = () => {
               <div>
                 <span className="text-sm text-muted-foreground block">First Event</span>
                 <span className="font-semibold">
-                  {events[0]?.timestamp ? new Date(events[0].timestamp).toLocaleString() : 'N/A'}
+                  {events[0]?.["Hire Date"] ? new Date(events[0]["Hire Date"]).toLocaleString() : 'N/A'}
                 </span>
               </div>
               <div>
                 <span className="text-sm text-muted-foreground block">Last Event</span>
                 <span className="font-semibold">
-                  {events[events.length - 1]?.timestamp ? new Date(events[events.length - 1].timestamp).toLocaleString() : 'N/A'}
+                  {events[events.length - 1]?.["Date of Approval"] ? new Date(events[events.length - 1]["Date of Approval"]).toLocaleString() : 'N/A'}
                 </span>
               </div>
             </CardContent>
@@ -285,7 +292,7 @@ const Results = () => {
               <div className="space-y-2">
                 <span className="text-sm text-muted-foreground block">Unique Users</span>
                 <span className="font-semibold">
-                  {new Set(events.map((e: AuditEvent) => e.user).filter(Boolean)).size}
+                  {new Set(events.map((e: AuditEvent) => e["Name"]).filter(Boolean)).size}
                 </span>
               </div>
             </CardContent>
@@ -331,29 +338,41 @@ const Results = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Status</TableHead>
-                    <TableHead>Event Type</TableHead>
-                    <TableHead>User</TableHead>
-                    <TableHead>Timestamp</TableHead>
-                    <TableHead>Details</TableHead>
+                    <TableHead>Ticket #</TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Action</TableHead>
+                    <TableHead>Requestor</TableHead>
+                    <TableHead>Access Requested</TableHead>
+                    <TableHead>Approver</TableHead>
+                    <TableHead>Date of Approval</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {events.slice(0, 50).map((event: AuditEvent, index: number) => (
-                    <TableRow key={event.id || index}>
+                    <TableRow key={event["Ticket #"] || index}>
                       <TableCell>
                         {getEventIcon(event)}
                       </TableCell>
-                      <TableCell>
-                        {getEventBadge(event.type || 'unknown')}
+                      <TableCell className="font-medium">
+                        {event["Ticket #"] || 'N/A'}
                       </TableCell>
                       <TableCell className="font-medium">
-                        {event.user || 'N/A'}
+                        {event["Name"] || 'N/A'}
                       </TableCell>
                       <TableCell>
-                        {event.timestamp ? new Date(event.timestamp).toLocaleString() : 'N/A'}
+                        {getEventBadge(event["Action"] || 'unknown')}
                       </TableCell>
-                      <TableCell className="max-w-xs truncate">
-                        {event.details ? JSON.stringify(event.details).substring(0, 100) + '...' : 'N/A'}
+                      <TableCell>
+                        {event["Requestor"] || 'N/A'}
+                      </TableCell>
+                      <TableCell>
+                        {event["Access requested"] || 'N/A'}
+                      </TableCell>
+                      <TableCell>
+                        {event["Approver"] || 'N/A'}
+                      </TableCell>
+                      <TableCell>
+                        {event["Date of Approval"] ? new Date(event["Date of Approval"]).toLocaleString() : 'N/A'}
                       </TableCell>
                     </TableRow>
                   ))}
