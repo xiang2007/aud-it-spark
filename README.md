@@ -20,8 +20,8 @@ AuditScope AI transforms complex audit log analysis through intelligent AI inter
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/xiang2007/aud-it-spark.git
-cd aud-it-spark
+git clone git@github.com:xiang2007/saja-hacks.git
+cd saja-hacks
 
 # Install dependencies
 bun install
