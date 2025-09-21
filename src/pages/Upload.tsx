@@ -204,22 +204,23 @@ const Upload = () => {
           </CardHeader>
           <CardContent>
             <pre className="bg-muted p-4 rounded-lg text-sm overflow-x-auto">
-{`{
-  "timestamp": "2024-01-15T10:30:00Z",
-  "events": [
-    {
-      "id": "event_001",
-      "type": "user_login",
-      "user": "john.doe@company.com",
-      "timestamp": "2024-01-15T10:30:00Z",
-      "details": {
-        "ip_address": "192.168.1.100",
-        "user_agent": "Mozilla/5.0...",
-        "success": true
-      }
-    }
-  ]
-}`}
+{`[
+  {
+    "Ticket #": "TIC-10002",
+    "Name": "User 3",
+    "User ID": "user1002",
+    "Hire Date": "2024-01-24T18:32:09Z",
+    "Left Date": null,
+    "Action": "Create",
+    "Account creation date": "2024-01-24T18:32:09Z",
+    "Requestor": "HR System",
+    "Access requested": "Support Portal",
+    "Approver": "hr_manager",
+    "Date of Approval": "2024-01-24T18:32:09Z",
+    "Access granted": "Yes",
+    "Status": "active"
+  }
+]`}
             </pre>
           </CardContent>
         </Card>
