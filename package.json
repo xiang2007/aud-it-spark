@@ -1,14 +1,23 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "auditscope-ai",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "Enterprise-grade AI-powered audit log analysis platform for hackathons",
+  "author": "AuditScope AI Team",
+  "license": "MIT",
+  "keywords": ["ai", "audit", "security", "aws", "bedrock", "analysis", "hackathon"],
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "build:dev": "vite build --mode development",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "lint": "eslint . --fix",
+    "lint:check": "eslint .",
+    "preview": "vite preview --host",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist node_modules/.vite",
+    "setup": "bun install && npm run type-check",
+    "demo": "npm run build && npm run preview"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

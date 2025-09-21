@@ -1,0 +1,85 @@
+{
+  "folders": [
+    {
+      "name": "AuditScope AI",
+      "path": "."
+    }
+  ],
+  "settings": {
+    // TypeScript settings
+    "typescript.preferences.includePackageJsonAutoImports": "auto",
+    "typescript.suggest.autoImports": true,
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    
+    // ESLint settings
+    "eslint.workingDirectories": ["src"],
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.organizeImports": "explicit"
+    },
+    
+    // Formatter settings
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    
+    // File associations
+    "files.associations": {
+      "*.css": "tailwindcss"
+    },
+    
+    // Tailwind CSS
+    "tailwindCSS.includeLanguages": {
+      "typescript": "javascript",
+      "typescriptreact": "javascript"
+    },
+    "tailwindCSS.experimental.classRegex": [
+      ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+      ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+    ],
+    
+    // File explorer
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+      "*.ts": "${capture}.js",
+      "*.tsx": "${capture}.js",
+      "package.json": "package-lock.json,bun.lockb",
+      "tailwind.config.ts": "postcss.config.js",
+      "vite.config.ts": "vite.config.js"
+    },
+    
+    // Git
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    
+    // Terminal
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.cwd": "${workspaceFolder}",
+    
+    // Search
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/build": true,
+      "**/.git": true,
+      "**/aws-backend/lambda-deployment.zip": true
+    },
+    
+    // Emmet
+    "emmet.includeLanguages": {
+      "typescript": "html",
+      "typescriptreact": "html"
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "bradlc.vscode-tailwindcss",
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+      "ms-vscode.vscode-typescript-next",
+      "bradlc.vscode-tailwindcss",
+      "PKief.material-icon-theme",
+      "formulahendry.auto-rename-tag",
+      "ms-vscode.vscode-json"
+    ]
+  }
+}
